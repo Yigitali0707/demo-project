@@ -121,7 +121,7 @@ Access the API docs here:
 spring.datasource.url=jdbc:postgresql://localhost:5432/demo-project
 spring.datasource.username=your_db_user
 spring.datasource.password=your_db_password
-spring.jpa.hibernate.ddl-auto=create
+spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
 
