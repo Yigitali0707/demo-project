@@ -6,10 +6,14 @@ import uz.pdp.demoproject.entity.Region;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RegionCreateMapper {
-    @Mapping(target = "country", ignore = true)
-    Region toEntity(RegionCreateDto dto);
+    @Mapping(source = "countryId", target = "country.id")
+    Region toEntity(RegionCreateDto regionCreateDto);
 
+    @Mapping(source = "country.id", target = "countryId")
     RegionCreateDto toDto(Region region);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)Region partialUpdate(RegionCreateDto regionCreateDto, @MappingTarget Region region);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "countryId", target = "country.id")
+    Region partialUpdate(RegionCreateDto regionCreateDto, @MappingTarget Region region);
 }

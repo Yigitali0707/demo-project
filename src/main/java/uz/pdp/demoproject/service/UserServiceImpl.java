@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoDto updateUserInfo(UserInfoDto userInfoDto) {
         User user = getCurrentUser();
-        if (userRepository.findByUsername(userInfoDto.username()) != null) {
+        if (!user.getUsername().equals(userInfoDto.username())&&userRepository.findByUsername(userInfoDto.username()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
         }
         user.setUsername(userInfoDto.username());

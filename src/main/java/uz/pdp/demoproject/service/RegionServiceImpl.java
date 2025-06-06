@@ -8,10 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.pdp.demoproject.dto.RegionCreateDto;
-import uz.pdp.demoproject.dto.RegionResponseDto;
-import uz.pdp.demoproject.dto.RegionUpdateDto;
+import uz.pdp.demoproject.dto.*;
 import uz.pdp.demoproject.entity.Country;
+import uz.pdp.demoproject.entity.District;
 import uz.pdp.demoproject.entity.Region;
 import uz.pdp.demoproject.exception.DataIntegrityException;
 import uz.pdp.demoproject.exception.ResourceNotFoundException;
@@ -47,10 +46,9 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public RegionResponseDto createRegion(RegionCreateDto createRegionDto) {
-        Region region =createRegionMapper.toEntity(createRegionDto);
-        Country country = countryService.getCountry(createRegionDto.countryId());
-        region.setCountry(country);
+    public RegionResponseDto createRegion(RegionCreateDto regionCreateDto) {
+        Region region =createRegionMapper.toEntity(regionCreateDto);
+        region.setCountry(countryService.getCountry(regionCreateDto.countryId()));
         Region savedRegion = regionRepository.save(region);
         return regionResponseMapper.toDto(savedRegion);
     }
@@ -59,7 +57,8 @@ public class RegionServiceImpl implements RegionService {
     public RegionResponseDto updateRegion(Long id, RegionUpdateDto regionUpdateDto) {
         Region region = getRegion(id);
         region.setName(regionUpdateDto.name());
-        region.setCountry(countryService.getCountry(regionUpdateDto.countryId()));
+        Country country = countryService.getCountry(regionUpdateDto.countryId());
+        region.setCountry(country);
         regionRepository.save(region);
         return regionResponseMapper.toDto(region);
     }
