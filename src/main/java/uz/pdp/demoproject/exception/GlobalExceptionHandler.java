@@ -47,4 +47,5 @@ public class GlobalExceptionHandler {
         errorDetails.put("message", "An unexpected error occurred. Please try again later.");
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

@@ -13,12 +13,13 @@ import uz.pdp.demoproject.entity.Role;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class JwtUtils {
 
     private static final String SECRET_KEY = "a2345678a2345678a2345678a2345678a2345678a2345678a2345678a2345678";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10;
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60;
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
@@ -30,7 +31,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .claim("roles", roleNames)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -53,5 +54,9 @@ public class JwtUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String generateRandomToken() {
+        return UUID.randomUUID().toString();
     }
 }

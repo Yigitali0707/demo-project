@@ -1,13 +1,10 @@
 package uz.pdp.demoproject.interfaces;
 
 import org.springframework.data.domain.Page;
-import uz.pdp.demoproject.dto.LoginDto;
-import uz.pdp.demoproject.dto.UserInfoDto;
-import uz.pdp.demoproject.dto.UserResponseDto;
-import uz.pdp.demoproject.dto.UserRegisterDto;
+import uz.pdp.demoproject.dto.*;
 
 public interface UserService {
-    String login(LoginDto loginDto);
+    TokenDto login(LoginDto loginDto);
 
     UserResponseDto register(UserRegisterDto userRegisterDto);
 

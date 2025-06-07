@@ -14,7 +14,7 @@
 
     <groupId>uz.pdp</groupId>
     <artifactId>demo-project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1</version>
     <name>demo-project</name>
     <description>Spring Boot</description>
     <url/>

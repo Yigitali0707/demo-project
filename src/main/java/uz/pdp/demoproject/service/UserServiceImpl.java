@@ -12,14 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.pdp.demoproject.dto.LoginDto;
-import uz.pdp.demoproject.dto.UserInfoDto;
-import uz.pdp.demoproject.dto.UserResponseDto;
+import uz.pdp.demoproject.dto.*;
+import uz.pdp.demoproject.entity.RefreshToken;
 import uz.pdp.demoproject.entity.User;
-import uz.pdp.demoproject.dto.UserRegisterDto;
 import uz.pdp.demoproject.entity.enums.RoleName;
 import uz.pdp.demoproject.exception.AuthenticationException;
-import uz.pdp.demoproject.exception.UserAlreadyExistsException;
 import uz.pdp.demoproject.interfaces.UserService;
 
 import uz.pdp.demoproject.mapper.UserInfoMapper;
@@ -35,31 +32,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtil;
+    private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserResponseMapper userResponseMapper;
     private final UserRegisterMapper userRegisterMapper;
     private final UserInfoMapper userInfoMapper;
+    private final RefreshTokenService refreshTokenService;
 
 
-    public String login(LoginDto loginDto) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password())
-            );
-            User user = (User) authentication.getPrincipal();
-            return jwtUtil.generateToken(user.getUsername(), user.getRoles());
-        } catch (org.springframework.security.core.AuthenticationException e) {
-            throw new AuthenticationException("Invalid username or password");
-        }
+    public TokenDto login(LoginDto loginDto) {
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password())
+        );
+
+        User user = (User) auth.getPrincipal();
+        String accessToken = jwtUtils.generateToken(user.getUsername(), user.getRoles());
+
+        refreshTokenService.revokeUserTokens(user);
+
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+        return new TokenDto(accessToken, refreshToken.getToken());
     }
 
 
     public UserResponseDto register(UserRegisterDto userRegisterDto) {
         if (userRepository.findByUsername(userRegisterDto.username()) != null) {
-            throw new UserAlreadyExistsException("User already exists");
+            throw new AuthenticationException("User already exists");
         }
         User user= userRegisterMapper.toEntity(userRegisterDto);
         user.setPassword(passwordEncoder.encode(userRegisterDto.password()));
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDto updateUserInfo(UserInfoDto userInfoDto) {
         User user = getCurrentUser();
         if (!user.getUsername().equals(userInfoDto.username())&&userRepository.findByUsername(userInfoDto.username()) != null) {
-            throw new UserAlreadyExistsException("Username already exists");
+            throw new AuthenticationException("Username already exists");
         }
         user.setUsername(userInfoDto.username());
         user.setFirstName(userInfoDto.firstName());
