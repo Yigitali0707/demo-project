@@ -1,5 +1,6 @@
 package uz.pdp.demoproject.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import uz.pdp.demoproject.interfaces.RegionService;
 
 @RestController
 @RequestMapping("/api")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class RegionController {
        private final RegionService regionService;

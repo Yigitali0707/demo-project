@@ -41,7 +41,6 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI springOpenAPI() {
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
                                 .name("bearerAuth")

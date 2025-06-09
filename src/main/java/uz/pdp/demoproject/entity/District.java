@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 public class District {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
     @ManyToOne

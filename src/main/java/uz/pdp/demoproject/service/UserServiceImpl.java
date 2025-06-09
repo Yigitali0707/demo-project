@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password())
         );
-
         User user = (User) auth.getPrincipal();
         String accessToken = jwtUtils.generateToken(user.getUsername(), user.getRoles());
 
@@ -86,6 +85,9 @@ public class UserServiceImpl implements UserService {
         User user = getCurrentUser();
         if (!user.getUsername().equals(userInfoDto.username())&&userRepository.findByUsername(userInfoDto.username()) != null) {
             throw new AuthenticationException("Username already exists");
+        }
+        if(!userInfoDto.id().equals(user.getId())){
+            throw new AuthenticationException("Not current user ID");
         }
         user.setUsername(userInfoDto.username());
         user.setFirstName(userInfoDto.firstName());

@@ -1,5 +1,6 @@
 package uz.pdp.demoproject.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -11,6 +12,7 @@ import uz.pdp.demoproject.interfaces.UserService;
 
 @RestController
 @RequestMapping("/api")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;

@@ -1,5 +1,7 @@
 package uz.pdp.demoproject.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,7 @@ public class AuthController {
 
 
      @PostMapping("/logout")
+     @SecurityRequirement(name = "bearerAuth")
      public ResponseEntity<Void> logout() {
           User currentUser = userServiceImpl.getCurrentUser();
           refreshTokenService.revokeUserTokens(currentUser);

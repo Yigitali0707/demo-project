@@ -1,5 +1,6 @@
 package uz.pdp.demoproject.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/refreshToken")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class RefreshController {
     private final RefreshTokenService refreshTokenService;
