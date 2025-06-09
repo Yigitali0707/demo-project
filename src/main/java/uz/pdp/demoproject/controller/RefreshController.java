@@ -15,7 +15,7 @@ import uz.pdp.demoproject.service.UserServiceImpl;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/refresh")
+@RequestMapping("/api/refreshToken")
 @RequiredArgsConstructor
 public class RefreshController {
     private final RefreshTokenService refreshTokenService;

@@ -10,32 +10,32 @@ import uz.pdp.demoproject.interfaces.DistrictService;
 
 
 @RestController
-@RequestMapping("/api/district")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DistrictController {
        private final DistrictService districtService;
 
-    @GetMapping
+    @GetMapping("/user/district")
     public HttpEntity<?> getAllDistrict(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(districtService.getAllDistrict(page,size));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/district/{id}")
     public HttpEntity<?> getById(@PathVariable Long id){
         return ResponseEntity.ok(districtService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping("/admin/district")
     public HttpEntity<?> saveCountry(DistrictCreateDto districtCreateDto){
         return ResponseEntity.ok(districtService.createDistrict(districtCreateDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/district/{id}")
     public HttpEntity<?> update(@PathVariable Long id, DistrictUpdateDto districtUpdateDto){
         return ResponseEntity.ok(districtService.updateDistrict(id,districtUpdateDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/district/{id}")
     public HttpEntity<?> deleteDistrict(@PathVariable Long id){
         return ResponseEntity.ok(districtService.deleteDistrict(id));
     }

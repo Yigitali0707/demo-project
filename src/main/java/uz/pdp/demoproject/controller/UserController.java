@@ -1,5 +1,6 @@
 package uz.pdp.demoproject.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -9,30 +10,30 @@ import uz.pdp.demoproject.dto.UserInfoDto;
 import uz.pdp.demoproject.interfaces.UserService;
 
 @RestController
-@RequestMapping("/api/userinfo")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/all")
+
+    @GetMapping("/admin/userinfo/all")
     public HttpEntity<?> getAllUser(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(userService.getAllUser(page,size));
     }
 
 
-    @GetMapping
+    @GetMapping("/user/userinfo")
     public HttpEntity<?> getCurrentUser(){
          return ResponseEntity.ok(userService.getUserInfo());
     }
 
 
-    @PutMapping
+    @PutMapping("/user/userinfo")
     public HttpEntity<?> updateUserInfo(UserInfoDto userInfoDto){
         return ResponseEntity.ok(userService.updateUserInfo(userInfoDto));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/user/userinfo")
     public HttpEntity<?> deleteUser(){
         return ResponseEntity.ok(userService.deleteUser());
     }

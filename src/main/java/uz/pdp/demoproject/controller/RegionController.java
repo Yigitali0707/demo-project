@@ -10,32 +10,32 @@ import uz.pdp.demoproject.interfaces.RegionService;
 
 
 @RestController
-@RequestMapping("/api/region")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class RegionController {
        private final RegionService regionService;
 
-    @GetMapping
+    @GetMapping("/user/region")
     public HttpEntity<?> getAllRegion(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(regionService.getAllRegion(page,size));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/region/{id}")
     public HttpEntity<?> getById(@PathVariable Long id){
         return ResponseEntity.ok(regionService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping("/admin/region")
     public HttpEntity<?> saveCountry(RegionCreateDto regionCreateDto){
         return ResponseEntity.ok(regionService.createRegion(regionCreateDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/region/{id}")
     public HttpEntity<?> update(@PathVariable Long id, RegionUpdateDto regionUpdateDto){
         return ResponseEntity.ok(regionService.updateRegion(id,regionUpdateDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/region/{id}")
     public HttpEntity<?> deleteRegion(@PathVariable Long id){
         return ResponseEntity.ok(regionService.deleteRegion(id));
     }

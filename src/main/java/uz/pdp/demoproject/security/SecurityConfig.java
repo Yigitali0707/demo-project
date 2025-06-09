@@ -28,6 +28,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(manager->{
             manager
                     .requestMatchers("/auth/**", "/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html").permitAll()
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/user/**").hasRole("USER")
                     .anyRequest()
                     .authenticated();
         });

@@ -11,33 +11,33 @@ import uz.pdp.demoproject.interfaces.CountryService;
 
 
 @RestController
-@RequestMapping("/api/country")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class CountryController {
     private final CountryService countryService;
 
 
-    @GetMapping
+    @GetMapping("/user/country")
     public HttpEntity<?> getAllCountry(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(countryService.getAllCountry(page,size));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/country/{id}")
     public HttpEntity<?> getById(@PathVariable Long id){
         return ResponseEntity.ok(countryService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping("/admin/country")
     public HttpEntity<?> saveCountry(CountryCreateDto countyCreateDto){
           return ResponseEntity.ok(countryService.createCountry(countyCreateDto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/country/{id}")
     public HttpEntity<?> update(@PathVariable Long id, CountryUpdateDto countryUpdateDto){
             return ResponseEntity.ok(countryService.updateCountry(id,countryUpdateDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/country/{id}")
     public HttpEntity<?> deleteCountry(@PathVariable Long id){
         return ResponseEntity.ok(countryService.deleteCountry(id));
     }
