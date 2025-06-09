@@ -58,7 +58,8 @@ This project is a secure RESTful API built with Java 17 and Spring Boot 2.7.x. I
 **Response:**
 ```json
 {
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR..."
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR...",
+  "refreshToken" : "dhvds5vfFhfbf.."
 }
 ```
 
